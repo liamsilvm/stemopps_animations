@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <script src = "CCapture.all.min.js"></script>
+    <script src = "js/gif.worker.js"></script>
+    <script> 
+        var capturer = new CCapture( {
+	        framerate: 60,
+            format: 'gif', 
+            workersPath: './js/gif.worker.js',
+	        verbose: true
+        });
+    </script>
+</head>
+<body>
+    <h1>test</h1>
+    <span> 
+    <input type = "number" max = "3" style = "width: 50px;" id = "canvas-width" placeholder = "size">px
+    background color: <input value="#3498db" type = "color" id = "canvas-color">
+    <select name="canvasType" id="canvas-select">
+        <option>flask</option>
+        <option>orbit</option>
+        <option>clock</option>
+    </select>
+    <button id = "render">render</button>
+    <button id = "generate-gif">generate GIF</button>
+    </span>
+    <br>
+    <br>
+    <div id = "canvas-output">
+        <canvas id = "render-canvas"></canvas>
+    </div>
+    <script>
+
+    </script>
+
+    <canvas id = "flask1" 
+            width = "100px" 
+            height = "100px"
+
+            animation-type = "flask" 
+            animation-background = 'lightblue'
+
+    ></canvas>
+    <canvas id = "testcanvas"
+            width = "100px" 
+            height = "100px"
+
+            animation-type = "orbit" 
+            animation-background = 'grey'
+
+    ></canvas>
+    <canvas id = "clock"
+            width = "100px" 
+            height = "100px"
+
+            animation-type = "clock" 
+            animation-background = 'grey'
+
+    ></canvas>
+    <script src = "drawing1.js" defer></script>
+</body>
+</html>
