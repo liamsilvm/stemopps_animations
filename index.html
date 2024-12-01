@@ -8,17 +8,18 @@
     <script src = "CCapture.all.min.js"></script>
     <script src = "js/gif.worker.js"></script>
     <script> 
-        var capturer = new CCapture( {
-	        framerate: 60,
-            format: 'gif', 
-            workersPath: './js/gif.worker.js',
-	        verbose: true
-        });
+        // var capturer = new CCapture( {
+	    //     framerate: 60,
+        //     format: 'gif', 
+        //     workersPath: './js/gif.worker.js',
+	    //     verbose: true
+        // });
     </script>
 </head>
 <body>
     <h1>test</h1>
     <span> 
+    <input type="number" placeholder="gif length (in seconds)" id="gif-length">
     <input type = "number" max = "3" style = "width: 50px;" id = "canvas-width" placeholder = "size">px
     background color: <input value="#3498db" type = "color" id = "canvas-color">
     <select name="canvasType" id="canvas-select">
@@ -29,6 +30,7 @@
     <button id = "render">render</button>
     <button id = "generate-gif">generate GIF</button>
     </span>
+    <div id = "error-message"></div>
     <br>
     <br>
     <div id = "canvas-output">

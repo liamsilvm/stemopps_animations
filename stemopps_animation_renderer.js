@@ -63,7 +63,6 @@ class Flask{
             
         }
         this.ctx.drawImage(this.flaskImage, this.flaskPadding, this.flaskPadding, this.canvas.width - this.flaskPadding * 2, this.canvas.height - this.flaskPadding)
-
     }
 }
 class Planet{ 
@@ -240,7 +239,16 @@ class Clock{
 class Scene{ 
     constructor(){ 
         this.render = this.render.bind(this);
-        this.recording = false; 
+        var capturer = new CCapture({
+	        framerate: 60,
+            format: 'gif', 
+            workersPath: './js/',
+	        verbose: true
+        })
+        this.capturer = capturer;
+        this.recording = false;
+        this.gifLength = 180;
+        this.frameCount = 0;
     }
 
     render(){
@@ -251,10 +259,22 @@ class Scene{
         this.ctx.fillStyle = (this.canvas.getAttribute('animation-background'))  ? this.canvas.getAttribute('animation-background') : 'white'; 
         this.ctx.fill()
         this.widget.render();
-        requestAnimationFrame(this.render); 
+        if(this.frameCount < this.gifLength && this.recording){ 
+            this.capturer.capture(this.canvas)
+            this.frameCount++;
+        }else if(this.frameCount === this.gifLength && this.recording){ 
+            this.capturer.stop()
+            this.capturer.save()
+        }
+ 
+        requestAnimationFrame(this.render);
     }
     start(){ 
         requestAnimationFrame(this.render); 
+    }
+    beginCapture(){ 
+        this.recording = true;
+        this.capturer.start()
     }
     setAnimationType(){ 
         switch(this.canvas.getAttribute('animation-type').toLowerCase()){ 
@@ -275,6 +295,7 @@ class Scene{
         const initializeCanvas = () => {
             console.log('Initializing canvas with ID:', id);
             this.canvas = document.getElementById(id);
+
             this.ctx = this.canvas.getContext('2d');
             this.setAnimationType();
             this.widget.init(this.canvas, this.ctx);
@@ -306,9 +327,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let renderButton = document.getElementById("render")
     let selectType = document.getElementById("canvas-select")
     let output = document.getElementById("canvas-output")
+    let recordGIFButton = document.getElementById("generate-gif")
     let canvasWidthInput = document.getElementById("canvas-width")
+    let errorMessage = document.getElementById("error-message")
+    let isRenderingMain = false; 
+
     let renderCanvas
     let renderScene
+
+    let tempGIFLength = 180
 
     let width = 100
     let height = 100
@@ -316,10 +343,11 @@ document.addEventListener("DOMContentLoaded", () => {
         width = e.target.value
         height = e.target.value
     })
-    renderButton.addEventListener("click", () => { 
+    renderButton.addEventListener("click", () => {
+
         console.log(document.readyState)
         console.log(selectType.value)
-        let renderCanvas = document.getElementById("render-canvas")
+        renderCanvas = document.getElementById("render-canvas")
         let backgroundColor = document.getElementById('canvas-color').value
         renderCanvas.setAttribute("animation-type", selectType.value)
         renderCanvas.setAttribute("animation-background", backgroundColor)
@@ -328,5 +356,14 @@ document.addEventListener("DOMContentLoaded", () => {
         renderScene = new Scene()
         renderScene.init(renderCanvas.id)
         renderScene.start()
+        isRenderingMain = true
+    })
+    recordGIFButton.addEventListener('click', () => {
+        if(isRenderingMain){ 
+            renderScene.beginCapture()
+        }else{ 
+            errorMessage.innerHTML = "error: please render a scene before generating GIF"
+        }
+        this.beginCapture()
     })
 })
