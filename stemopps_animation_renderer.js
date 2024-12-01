@@ -265,6 +265,7 @@ class Scene{
         }else if(this.frameCount === this.gifLength && this.recording){ 
             this.capturer.stop()
             this.capturer.save()
+            this.recording = false; 
         }
  
         requestAnimationFrame(this.render);
