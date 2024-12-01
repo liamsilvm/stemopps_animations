@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <style>
+        body{ 
+            background-color: rgb(63, 63, 63);
+            color: white; 
+        }
+    </style>
     <title>Document</title>
     <script src = "CCapture.all.min.js"></script>
     <script src = "js/gif.worker.js"></script>
@@ -17,9 +22,9 @@
     </script>
 </head>
 <body>
-    <h1>test</h1>
+    <h1 style = 'color:rgb(172, 130, 136);'>Gif animation generator</h1>
     <span> 
-    <input type="number" placeholder="gif length (in seconds)" id="gif-length">
+    <input type="number" placeholder="gif length (in seconds)" id="GIF-length">
     <input type = "number" max = "3" style = "width: 50px;" id = "canvas-width" placeholder = "size">px
     background color: <input value="#3498db" type = "color" id = "canvas-color">
     <select name="canvasType" id="canvas-select">

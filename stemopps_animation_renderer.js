@@ -291,6 +291,9 @@ class Scene{
             break; 
         }
     }
+    setGIFLength(newLength){ 
+        this.gifLength = newLength; 
+    }
     init(id) {
         const initializeCanvas = () => {
             console.log('Initializing canvas with ID:', id);
@@ -330,12 +333,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let recordGIFButton = document.getElementById("generate-gif")
     let canvasWidthInput = document.getElementById("canvas-width")
     let errorMessage = document.getElementById("error-message")
+    let GIFLength = document.getElementById('GIF-length')
     let isRenderingMain = false; 
 
     let renderCanvas
     let renderScene
 
-    let tempGIFLength = 180
+    let maxGIFFrames = 180
 
     let width = 100
     let height = 100
@@ -354,9 +358,17 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCanvas.width = width; 
         renderCanvas.height = height; 
         renderScene = new Scene()
+
         renderScene.init(renderCanvas.id)
         renderScene.start()
         isRenderingMain = true
+    })
+    GIFLength.addEventListener('change', (e) => {
+        if(isRenderingMain){ 
+            maxGIFFrames = e.target.value * 60; 
+            renderScene.setGIFLength(maxGIFFrames)
+            console.log(maxGIFFrames)
+        }
     })
     recordGIFButton.addEventListener('click', () => {
         if(isRenderingMain){ 
